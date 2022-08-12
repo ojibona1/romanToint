@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <style>
+        #div{
+            height: 300px;
+            padding: 20px;
+            max-width: 60%;
+            margin: auto;
+            margin-top: 60px;
+            background-color: aqua;
+            display: flex;
+            justify-content: center;
+            align-items:flex-start;
+        }
+
+        label{
+            text-align: center;
+        }
+
+        #result{
+            left: 48%;
+            position: absolute;
+            font-weight: bold;
+            font-size: 29px;
+            font-family: 'roboto', sans-serif;
+
+        }
+        input{
+            margin-left: 50px;
+        }
+        input[type=text]{
+            width: 20%;
+            transition: width 0.8s ease-in-out;
+
+        }
+        input[type=text]:focus{
+            width: 50%;
+            height: 30px;
+        }
+
+    </style>
+    <div id="div">
+
+        <div>
+            <h2>Roman Figure To Number Converter</h2><br><br>
+          <input autocomplete="off" type="text" id="text" placeholder="instert roman figure..."><br><br>
+         <input type="button" id="button" value="submit"><br><br>
+         <p id="result"></p>
+        </div>
+     
+    </div>
+
+    <script type="text/javascript">
+        let input = document.querySelector('#text');
+        let result = document.querySelector('#result')
+        const button = document.querySelector('#button');
+
+
+
+        
+        //Fuction to convert  Roman Figure to interger is saved in romanToint
+        let romanToInt=(q)=>{
+            let arr = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+            //object containing value of the roman figure which are used as key
+            let obj = {'I':1,'V':5, 'X':10, 'L':50, 'C':100,'D':500, 'M':1000}
+            let objCount = {'I':0,'V':0, 'X':0, 'L':0, 'C':0,'D':0, 'M':0}
+            let sep_q = [];
+            let integer = 0;
+            //check for pressence of iv, ix, xl, xc, cd, cm in the input if present,  increment the result with its numerical value and remove the string from the input
+            if(q.includes('IV')){
+                   q = q.replace('IV', '')
+                    integer += 4;
+                }
+                
+                if(q.includes('IX')){
+                    q = q.replace('IX', '')
+                    integer += 9;
+                }
+                 if(q.includes('XL')){
+                    q = q.replace('XL', '')
+                     integer += 40
+                }
+                 if(q.includes('XC')){
+                   q = q.replace('XC', '')
+                    integer += 90
+                }
+                 if(q.includes('CD')){
+                   q = q.replace('CD', '')
+                    integer += 400;
+                }
+                 if(q.includes('CM')){
+                   q = q.replace('CM', '')
+                    integer += 900
+                }
+                
+                //push the remaining string into an empty array by iterating through it
+                for(let i=0; i<q.length; i++){
+                sep_q.push(q[i]);
+            }
+                //check where the value of the new array sep_q is equal to a roman figure in the array arr and increatement the propery value by 1 to get the amount of a time a figure occur.
+                for(let b=0; b<sep_q.length; b++){
+                    for(let i=0; i<arr.length; i++){
+                        if(sep_q[b] === arr[i]){
+                            objCount[sep_q[b]] +=1
+                        }
+                    }
+                }
+
+
+                //add the valur of the roman figure and save it in interger
+                for(let i=0; i<sep_q.length; i++){
+                  integer += obj[sep_q[i]]
+                }
+
+                result.textContent = `${integer}`
+
+        }
+
+
+        //listen to click of the submit button
+        button.addEventListener('click', ()=>{
+            romanToInt(input.value.toUpperCase());
+        })
+
+    </script>
+</body>
+</html>
